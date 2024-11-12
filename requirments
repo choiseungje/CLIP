@@ -1,0 +1,9 @@
+pip install "fastapi[all]"
+pip install googletrans==4.0.0-rc1
+pip install git+https://github.com/openai/CLIP.git
+
+cpu
+pip3 install torch torchvision torchaudio
+
+cuda
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/"cuda-version"

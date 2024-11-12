@@ -1,3 +1,4 @@
+import torch
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -12,11 +13,12 @@ app = FastAPI()
 templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), '../templates'))
 
 # CLIP 모델과 장치 설정
-device = "cpu"
+
+device = "cuda"
 
 
 # 이미지 데이터셋 경로 설정
-IMAGE_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
+IMAGE_DIR = os.path.join(os.path.dirname(__file__), '..', 'output_images')
 STYLES_DIR = os.path.join(os.path.dirname(__file__), '..', 'styles')
 
 app.mount("/static", StaticFiles(directory=IMAGE_DIR), name="static")
@@ -35,8 +37,9 @@ async def get_image(request: Request, prompt: str = Form(...)):
     try:
         prompt = korean_to_english(prompt)
         relative_image_path = model.get_best_matching_image(prompt=prompt)
-
+        print(relative_image_path)
         return templates.TemplateResponse("result.html", {"request": request, "image_path": relative_image_path})
+
 
     except Exception as e:
         return templates.TemplateResponse("error.html", {"request": request, "error_message": str(e)})
