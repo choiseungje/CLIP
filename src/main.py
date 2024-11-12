@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), '.
 
 # CLIP 모델과 장치 설정
 
-device = "cpu"
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 # 이미지 데이터셋 경로 설정
