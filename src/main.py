@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), '.
 
 # CLIP 모델과 장치 설정
 
-device = "cuda"
+device = "cpu"
 
 
 # 이미지 데이터셋 경로 설정
@@ -23,7 +23,7 @@ STYLES_DIR = os.path.join(os.path.dirname(__file__), '..', 'styles')
 
 app.mount("/static", StaticFiles(directory=IMAGE_DIR), name="static")
 app.mount("/styles", StaticFiles(directory=STYLES_DIR), name="styles")
-model = CLIP(image_dir=IMAGE_DIR)
+model = CLIP(device, image_dir=IMAGE_DIR)
 model.load_image()
 
 
